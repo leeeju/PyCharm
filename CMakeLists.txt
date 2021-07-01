@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rospy_tutorial)
+project(tutorial)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -9,9 +9,10 @@ project(rospy_tutorial)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  rospy
   roscpp
+  rospy
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,11 +56,13 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
+## add_service_files
+add_service_files(
+   FILES
+   AddTwoInts.srv
 #   Service1.srv
 #   Service2.srv
-# )
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -69,10 +72,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,8 +108,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES rospy_tutorial
-#  CATKIN_DEPENDS geometry_msgs rospy
+#  LIBRARIES rospy_tuorial
+  CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 
@@ -123,7 +126,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/rospy_tutorial.cpp
+#   src/${PROJECT_NAME}/rospy_tuorial.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -134,10 +137,12 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/rospy_tutorial_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/rospy_tuorial_node.cpp)
 add_executable(move_circle src/move_circle.cpp)
+add_executable(tb3_teleop src/tb3_teleop.cpp)   # <<==
 add_executable(pub_hello src/pub_hello.cpp)
 add_executable(sub_hello src/sub_hello.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,7 +158,8 @@ add_executable(sub_hello src/sub_hello.cpp)
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(move_circle ${catkin_LIBRARIES} )
+target_link_libraries(move_circle ${catkin_LIBRARIES})
+target_link_libraries(tb3_teleop ${catkin_LIBRARIES})   # <<==
 target_link_libraries(pub_hello  ${catkin_LIBRARIES})
 target_link_libraries(sub_hello  ${catkin_LIBRARIES})
 
@@ -204,7 +210,7 @@ target_link_libraries(sub_hello  ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rospy_tutorial.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_rospy_tuorial.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
